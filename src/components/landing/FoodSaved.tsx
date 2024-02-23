@@ -5,7 +5,7 @@ import {ArrowRight} from "lucide-react";
 
 export default function FoodSaved() {
     return (
-        <Link href="/events/rep">
+        <Link href="/about">
             <Button
                 className="mb-1 h-7 rounded-lg group bg-opacity-50 group"
                 variant="secondary"
