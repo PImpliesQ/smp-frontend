@@ -1,0 +1,32 @@
+name: 'push-ghcr'
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: 'Build'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: WillFP
+          password: ${{ secrets.ACCESS_TOKEN }}
+      - name: Enable MySQL
+        run: |
+          sudo /etc/init.d/mysql start
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+          context: .
+          tags: ghcr.io/pimpliesq/smp-frontend:latest
+          push: true
