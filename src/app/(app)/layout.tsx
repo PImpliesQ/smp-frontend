@@ -1,0 +1,26 @@
+import React from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+
+export default function Layout(props: {
+    children: React.ReactNode
+}) {
+    const {children} = props
+
+    return (
+        <main>
+            <div id="container"
+                 className="min-h-screen md:h-screen w-screen md:overflow-auto overflow-x-hidden flex flex-col">
+                <Header/>
+
+                <div
+                    className="px-2 md:p-14 md:pt-2 mb-auto"
+                >
+                    {children}
+                </div>
+
+                <Footer/>
+            </div>
+        </main>
+    )
+}
