@@ -1,17 +1,13 @@
-import OpenAI from "openai";
 import {z} from "zod";
 import {OpenAIStream, StreamingTextResponse} from "ai";
-
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY!,
-})
+import {openai} from "@/lib/load-openai";
 
 const requestSchema = z.object({
     prompt: z.string()
 })
 
 export async function POST(request: Request) {
-    const { prompt } = requestSchema.parse(await request.json())
+    const {prompt} = requestSchema.parse(await request.json())
 
     const response = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
@@ -22,10 +18,10 @@ export async function POST(request: Request) {
         stream: true,
         n: 1,
         messages: [
-            { role: "user", content: prompt },
-            { role: "system", content: "You are powering a recipe creation tool" },
+            {role: "user", content: prompt},
+            {role: "system", content: "You are powering a recipe creation tool"},
         ],
-        response_format: { type: "json_object" },
+        response_format: {type: "json_object"},
     })
 
     const stream = OpenAIStream(response)
