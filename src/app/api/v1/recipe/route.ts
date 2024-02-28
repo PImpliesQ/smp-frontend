@@ -1,12 +1,16 @@
 import {z} from "zod";
 import {OpenAIStream, StreamingTextResponse} from "ai";
-import {openai} from "@/lib/load-openai";
+import OpenAI from "openai";
 
 const requestSchema = z.object({
     prompt: z.string()
 })
 
 export async function POST(request: Request) {
+    const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY!,
+    })
+
     const {prompt} = requestSchema.parse(await request.json())
 
     const response = await openai.chat.completions.create({
