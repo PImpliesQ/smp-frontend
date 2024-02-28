@@ -3,6 +3,7 @@ import FadeIn from "@/components/FadeIn";
 import {Metadata} from "next";
 import FoodSaved from "@/components/landing/FoodSaved";
 import CreateButton from "@/components/landing/CreateButton";
+import Bento from "@/components/landing/Bento";
 
 export const metadata: Metadata = {
     title: {
@@ -21,7 +22,7 @@ export default function Page() {
                         <FoodSaved/>
 
                         <h1
-                            className="text-4xl md:text-5xl font-bold"
+                            className="text-4xl md:text-5xl font-bold leading-tight tracking-tight"
                         >
                                 <span>
                                     Wave goodbye to&nbsp;
@@ -42,6 +43,43 @@ export default function Page() {
                     </div>
 
                     <CreateButton/>
+
+                    <div className="w-full text-left justify-center items-center mx-auto">
+                        <Bento.Grid>
+                            <Bento.Card>
+                                <Bento.Title>
+                                    Reduce Food Waste
+                                </Bento.Title>
+
+                                <Bento.Description>
+                                    Ever bought too many ingredients and not known what to do with it? Sustain-A-Meal helps you
+                                    generate recipes from your leftover ingredients, reducing food waste and saving you money.
+                                </Bento.Description>
+                            </Bento.Card>
+
+                            <Bento.Card>
+                                <Bento.Title>
+                                    Powered by ChatGPT
+                                </Bento.Title>
+
+                                <Bento.Description>
+                                    Sustain-A-Meal uses OpenAI&apos;s ChatGPT to generate recipes from your leftover ingredients,
+                                    helping you make the most of your food. It&apos;s like having a personal chef in your pocket.
+                                </Bento.Description>
+                            </Bento.Card>
+
+                            <Bento.Card>
+                                <Bento.Title>
+                                    Caters to your Diet
+                                </Bento.Title>
+
+                                <Bento.Description>
+                                    If you&apos;re vegan or vegetarian, Sustain-A-Meal has you covered. We&apos;ll generate
+                                    recipes with any dietary requirements you have. Gluten-free? No problem.
+                                </Bento.Description>
+                            </Bento.Card>
+                        </Bento.Grid>
+                    </div>
                 </div>
             </FadeIn>
         </div>

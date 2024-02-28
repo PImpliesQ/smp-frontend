@@ -14,7 +14,7 @@ export default function Layout(props: {
                 <Header/>
 
                 <div
-                    className="px-2 md:p-14 md:pt-2 mb-auto"
+                    className="px-2 md:p-14 md:pt-2 mb-auto w-full"
                 >
                     {children}
                 </div>

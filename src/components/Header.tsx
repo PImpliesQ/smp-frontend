@@ -7,12 +7,12 @@ import {Button} from "@/components/ui/button";
 
 export default function Header() {
     return (
-        <div className="py-4 px-10 md:px-20 backdrop-blur flex w-full border-b"
+        <div className="py-4 px-10 md:px-20 backdrop-blur flex w-full border-b sticky top-0"
              suppressHydrationWarning
         >
             <div className="place-self-center">
                 <h1
-                    className="text-lg cursor-pointer flex flex-col"
+                    className="text-lg tracking-tight cursor-pointer flex flex-col"
                 >
                     <Link href="/">
                         Sustain-A-Meal
@@ -20,7 +20,15 @@ export default function Header() {
                 </h1>
             </div>
 
-            <div className="ml-auto place-self-center w-8">
+            <div className="ml-auto place-self-center justify-center">
+                <Button variant="link">
+                    <Link href="/recipes">
+                        Recipes
+                    </Link>
+                </Button>
+            </div>
+
+            <div className="place-self-center w-8">
                 <SignedIn>
                     <UserButton afterSignOutUrl="/">
                         <UserButton.UserProfilePage label="account"/>
@@ -29,7 +37,7 @@ export default function Header() {
                 </SignedIn>
                 <SignedOut>
                     <SignInButton>
-                        <Button size="sm">
+                        <Button size="xs">
                             Sign In
                         </Button>
                     </SignInButton>

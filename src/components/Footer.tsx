@@ -13,12 +13,12 @@ export default function Footer() {
                     &copy; 2024 Sustain-A-Meal
                 </p>
 
-                <p className="text-sm transition-all ease-out hover:underline hover:text-fuchsia-500">
+                <p className="text-sm transition-all ease-out hover:underline hover:text-green-500">
                     Contact
                 </p>
 
-                <Link href="/events/terms">
-                    <p className="text-sm transition-all ease-out hover:underline hover:text-fuchsia-500">
+                <Link href="/terms">
+                    <p className="text-sm transition-all ease-out hover:underline hover:text-green-500">
                         Terms
                     </p>
                 </Link>

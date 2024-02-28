@@ -1,5 +1,21 @@
 import React from "react";
 
+export function BentoGrid(props: {
+    children: React.ReactNode
+}) {
+    const {
+        children
+    } = props
+
+    return (
+        <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
+            {children}
+        </div>
+    )
+}
+
 export function BentoCard(props: {
     children: React.ReactNode
 }) {
@@ -24,7 +40,7 @@ export function BentoTitle(props: {
     } = props
 
     return (
-        <p className="text-lg font-semibold">
+        <p className="text-lg font-semibold tracking-tight">
             {children}
         </p>
     )
@@ -59,6 +75,7 @@ export function BentoDescription(props: {
 }
 
 const Bento = {
+    Grid: BentoGrid,
     Card: BentoCard,
     Title: BentoTitle,
     Content: BentoContent,
