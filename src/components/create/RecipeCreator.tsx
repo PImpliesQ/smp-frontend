@@ -3,7 +3,7 @@
 import {useCompletion} from "ai/react";
 import {z} from "zod";
 import RecipeCreateForm, {formSchema} from "@/components/create/RecipeCreateForm";
-import {generatePrompt, Recipe} from "@/lib/recipes";
+import {generatePrompt} from "@/lib/recipes";
 import {postRecipe} from "@/lib/recipe-actions";
 import {useRouter} from "next/navigation";
 

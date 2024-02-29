@@ -26,7 +26,7 @@ export default function CreateButton() {
     const [loading, setLoading] = useState(false)
 
     return (
-        <Link href="/recipes">
+        <Link href="/recipes/create">
             <Button
                 onClick={() => setLoading(true)}
                 disabled={loading}

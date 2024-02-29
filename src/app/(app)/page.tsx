@@ -22,7 +22,7 @@ export default function Page() {
                         <FoodSaved/>
 
                         <h1
-                            className="text-4xl md:text-5xl font-bold leading-tight tracking-tight"
+                            className="text-4xl md:text-5xl font-bold leading-tighter tracking-tight"
                         >
                                 <span>
                                     Wave goodbye to&nbsp;

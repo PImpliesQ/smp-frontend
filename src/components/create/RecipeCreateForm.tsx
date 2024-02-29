@@ -98,7 +98,7 @@ export default function RecipeCreateForm(props: {
                     )}
                 />
 
-                <Button type="submit" disabled={isLoading}>
+                <Button type="submit" disabled={isLoading} variant="default">
                     {
                         isLoading ?
                             <Loading/> : <CreateRecipe/>

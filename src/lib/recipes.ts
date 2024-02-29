@@ -1,5 +1,6 @@
 import {z} from "zod";
 import {formSchema} from "@/components/create/RecipeCreateForm";
+import prisma from "@/lib/get-prisma";
 
 export type Recipe = {
     id: number,
@@ -44,4 +45,41 @@ export function generatePrompt(data: z.infer<typeof formSchema>) {
     Do not generate anything other than the JSON object.
     Do not add any extra text or information, just return the complete JSON object.
   `
+}
+
+export async function getRecipes(): Promise<Recipe[]> {
+    const ids = await prisma.recipe.findMany({
+        select: {
+            id: true
+        }
+    })
+
+    const recipes = await Promise.all(ids.map(async (id) => {
+        return await getRecipeById(id.id)
+    }))
+
+    return recipes.filter((recipe) => recipe !== null) as Recipe[]
+}
+
+export async function getRecipeById(id: string | number): Promise<Recipe | null> {
+    const recipeInDb = await prisma.recipe.findFirst({
+        where: {
+            id: parseInt(id.toString())
+        }
+    })
+
+    if (!recipeInDb) {
+        return null
+    }
+
+    return {
+        id: recipeInDb.id,
+        title: recipeInDb.name,
+        description: recipeInDb.description,
+        ingredients: recipeInDb.ingredients,
+        steps: recipeInDb.steps,
+        people: recipeInDb.people,
+        dietaryRestrictions: recipeInDb.diet,
+        foodSaved: recipeInDb.foodSaved
+    }
 }

@@ -1,8 +1,8 @@
-import prisma from "@/lib/get-prisma";
-import {Recipe} from "@/lib/recipes";
+import {getRecipeById} from "@/lib/recipes";
 import {Separator} from "@/components/ui/separator";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import {notFound} from "next/navigation";
 
 export default async function Page(props: {
     params: {
@@ -13,71 +13,61 @@ export default async function Page(props: {
         params
     } = props
 
-    const recipeInDb = await prisma.recipe.findFirst({
-        where: {
-            id: parseInt(params.id)
-        }
-    })
+    const recipe = await getRecipeById(params.id)
 
-    console.log(recipeInDb)
-
-    if (!recipeInDb) {
-        return {
-            notFound: true
-        }
-    }
-
-    const recipe: Recipe = {
-        id: recipeInDb.id,
-        title: recipeInDb.name,
-        description: recipeInDb.description,
-        ingredients: recipeInDb.ingredients,
-        steps: recipeInDb.steps,
-        people: recipeInDb.people,
-        dietaryRestrictions: recipeInDb.diet,
-        foodSaved: recipeInDb.foodSaved
+    if (!recipe) {
+        return notFound()
     }
 
     return (
-        <div className="mx-auto max-w-3xl space-y-4 pt-10">
-            <div className="rounded-md border shadow-md bg-white p-4 space-y-2">
+        <div className="mx-auto max-w-5xl space-y-4 pt-10">
+            <div className="flex flex-row">
                 <div>
-                    <h1 className="font-semibold tracking-tight text-xl">
+                    <h1 className="font-semibold tracking-tight text-3xl">
                         {recipe.title}
                     </h1>
 
                     <p className="text-sm">
                         {recipe.description}
                     </p>
+                    <p className="text-sm">
+                        Serves {recipe.people}
+                    </p>
                 </div>
 
-                <Separator/>
-
-                <h2 className="font-semibold tracking-tight text-lg">
-                    Ingredients
-                </h2>
-                <div className="text-sm">
-                    {recipe.ingredients.split("\n").map((ingredient, index) => (
-                        <div key={index}>
-                            {ingredient}
-                        </div>
-                    ))}
-                </div>
-
-                <h2 className="font-semibold tracking-tight text-lg">
-                    Steps
-                </h2>
-                <div className="text-sm">
-                    {recipe.steps.split("\n").map((step, index) => (
-                        <div key={index}>
-                            {step}
-                        </div>
-                    ))}
+                <div className="ml-auto mt-auto">
+                    <h2 className="text-sm">
+                        This recipe saved {recipe.foodSaved}g of food!
+                    </h2>
                 </div>
             </div>
 
+            <Separator/>
+
+            <h2 className="font-semibold tracking-tight text-lg">
+                Ingredients
+            </h2>
+            <div className="text-sm">
+                {recipe.ingredients.split("\n").map((ingredient, index) => (
+                    <div key={index}>
+                        {ingredient}
+                    </div>
+                ))}
+            </div>
+
+            <h2 className="font-semibold tracking-tight text-lg">
+                Steps
+            </h2>
+            <div className="text-sm">
+                {recipe.steps.split("\n").map((step, index) => (
+                    <div key={index}>
+                        {step}
+                    </div>
+                ))}
+            </div>
+
             <Button className="mx-auto flex">
-                <Link href="/recipes">
+                <Link href="/recipes/create">
                     Generate another recipe!
                 </Link>
             </Button>

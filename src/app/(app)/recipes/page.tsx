@@ -1,13 +1,20 @@
-import RecipeCreator from "@/components/create/RecipeCreator";
+import {getRecipes} from "@/lib/recipes";
+import RecipeCard from "@/components/recipe/RecipeCard";
 
-export default function Page() {
+export default async function Page() {
+    const recipes = await getRecipes()
+
     return (
-        <div className="mx-auto max-w-3xl space-y-4 pt-10">
-            <h1 className="text-center text-3xl tracking-tight font-semibold">
-                Let&apos;s save some food!
+        <div className="space-y-4 mt-5">
+            <h1 className="text-3xl font-semibold tracking-tight">
+                Recipes
             </h1>
 
-            <RecipeCreator/>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {recipes.map((recipe) => (
+                    <RecipeCard key={recipe.id} recipe={recipe}/>
+                ))}
+            </div>
         </div>
     )
 }
