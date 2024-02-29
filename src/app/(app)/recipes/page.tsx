@@ -2,7 +2,8 @@ import {getRecipes} from "@/lib/recipes";
 import RecipeCard from "@/components/recipe/RecipeCard";
 
 export default async function Page() {
-    const recipes = await getRecipes()
+    // Workaround for SSR
+    const recipes = process.env.RUNNING_DOCKER_BUILD ? [] : await getRecipes()
 
     return (
         <div className="space-y-4 mt-5">
