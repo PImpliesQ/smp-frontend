@@ -1,5 +1,6 @@
 import {getRecipes} from "@/lib/recipes";
 import RecipeCard from "@/components/recipe/RecipeCard";
+import FadeIn from "@/components/FadeIn";
 
 export default async function Page() {
     // Workaround for SSR
@@ -11,11 +12,11 @@ export default async function Page() {
                 Recipes
             </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <FadeIn className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {recipes.map((recipe) => (
                     <RecipeCard key={recipe.id} recipe={recipe}/>
                 ))}
-            </div>
+            </FadeIn>
         </div>
     )
 }
