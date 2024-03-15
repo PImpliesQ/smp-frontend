@@ -13,9 +13,15 @@ export default async function FoodSaved() {
                 className="mb-1 h-7 rounded-lg group bg-opacity-50 group"
                 variant="secondary"
             >
+                <p>
+                    &#x1F96C;&nbsp;&nbsp;
+                </p>
                 <Suspense>
-                    &#x1F96C;&nbsp; {foodSaved}kg of food saved
+                    {foodSaved}
                 </Suspense>
+                <p>
+                    kg of food saved
+                </p>
                 &nbsp;<ArrowRight size={16} className="group-hover:translate-x-0.5 h-4 transition-all duration-15"/>
             </Button>
         </Link>
