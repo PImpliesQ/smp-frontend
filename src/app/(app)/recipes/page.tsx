@@ -7,12 +7,12 @@ export default async function Page() {
     const recipes = process.env.RUNNING_DOCKER_BUILD ? [] : await getRecipes()
 
     return (
-        <div className="space-y-4 mt-5">
+        <div className="space-y-4">
             <h1 className="text-3xl font-semibold tracking-tight">
                 Recipes
             </h1>
 
-            <FadeIn className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <FadeIn className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-max">
                 {recipes.map((recipe) => (
                     <RecipeCard key={recipe.id} recipe={recipe}/>
                 ))}

@@ -20,7 +20,7 @@ export default async function Page(props: {
     }
 
     return (
-        <div className="mx-auto max-w-5xl space-y-4 pt-10">
+        <div className="mx-auto max-w-5xl space-y-4">
             <div className="flex flex-row">
                 <div>
                     <h1 className="font-semibold tracking-tight text-3xl">
@@ -47,22 +47,22 @@ export default async function Page(props: {
             <h2 className="font-semibold tracking-tight text-lg">
                 Ingredients
             </h2>
-            <div className="text-sm">
+            <div className="text-sm !mt-0">
                 {recipe.ingredients.split("\n").map((ingredient, index) => (
-                    <div key={index}>
+                    <p key={index}>
                         {ingredient}
-                    </div>
+                    </p>
                 ))}
             </div>
 
             <h2 className="font-semibold tracking-tight text-lg">
                 Steps
             </h2>
-            <div className="text-sm">
+            <div className="text-sm !mt-0">
                 {recipe.steps.split("\n").map((step, index) => (
-                    <div key={index}>
+                    <p key={index}>
                         {step}
-                    </div>
+                    </p>
                 ))}
             </div>
 

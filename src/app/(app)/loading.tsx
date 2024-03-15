@@ -1,11 +1,10 @@
 import {RefreshCw} from "lucide-react";
+import FadeIn from "@/components/FadeIn";
 
 export default function Loading() {
     return (
-        <div className="h-max w-full flex">
-            <div className="mx-auto my-auto">
-                <RefreshCw className="animate-spin"/>
-            </div>
-        </div>
+        <FadeIn className="h-max w-full mt-16">
+            <RefreshCw className="animate-spin justify-center self-center flex mx-auto my-auto"/>
+        </FadeIn>
     )
 }

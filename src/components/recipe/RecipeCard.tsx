@@ -9,7 +9,8 @@ export default function RecipeCard(props: {
     } = props
 
     return (
-        <div className="rounded-md shadow-sm hover:shadow-md hover:-translate-y-0.5 ease-in-out duration-150 w-full border bg-white">
+        <div className="rounded-md shadow-sm hover:shadow-md hover:-translate-y-0.5
+        ease-in-out duration-150 w-full border bg-white h-full">
             <Link href={`/recipes/${recipe.id}`}>
                 <div className="p-4">
                     <h1 className="text-xl font-semibold tracking-tight">

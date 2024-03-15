@@ -4,6 +4,10 @@ import {Metadata} from "next";
 import FoodSaved from "@/components/landing/FoodSaved";
 import CreateButton from "@/components/landing/CreateButton";
 import Bento from "@/components/landing/Bento";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import FoodSavedCounter from "@/components/landing/FoodSavedCounter";
+import UsersCounter from "@/components/landing/UsersCounter";
 
 export const metadata: Metadata = {
     title: {
@@ -15,7 +19,9 @@ export default function Page() {
     const gradient = "animate-gradient bg-gradient-to-r bg-clip-text text-transparent"
 
     return (
-        <div>
+        <div className="bg-[url('/background.jpg')] bg-cover bg-clip-content bg-no-repeat">
+            <Header/>
+
             <FadeIn className="px-10 md:px-20 pt-10 mb-8 space-y-16 mx-auto max-w-5xl">
                 <div className="space-y-8 text-center">
                     <div className="space-y-2 mb-4">
@@ -52,8 +58,10 @@ export default function Page() {
                                 </Bento.Title>
 
                                 <Bento.Description>
-                                    Ever bought too many ingredients and not known what to do with it? Sustain-A-Meal helps you
-                                    generate recipes from your leftover ingredients, reducing food waste and saving you money.
+                                    Ever bought too many ingredients and not known what to do with it? Sustain-A-Meal
+                                    helps you
+                                    generate recipes from your leftover ingredients, reducing food waste and saving you
+                                    money.
                                 </Bento.Description>
                             </Bento.Card>
 
@@ -63,8 +71,10 @@ export default function Page() {
                                 </Bento.Title>
 
                                 <Bento.Description>
-                                    Sustain-A-Meal uses OpenAI&apos;s ChatGPT to generate recipes from your leftover ingredients,
-                                    helping you make the most of your food. It&apos;s like having a personal chef in your pocket.
+                                    Sustain-A-Meal uses OpenAI&apos;s ChatGPT to generate recipes from your leftover
+                                    ingredients,
+                                    helping you make the most of your food. It&apos;s like having a personal chef in
+                                    your pocket.
                                 </Bento.Description>
                             </Bento.Card>
 
@@ -74,14 +84,22 @@ export default function Page() {
                                 </Bento.Title>
 
                                 <Bento.Description>
-                                    If you&apos;re vegan or vegetarian, Sustain-A-Meal has you covered. We&apos;ll generate
+                                    If you&apos;re vegan or vegetarian, Sustain-A-Meal has you covered. We&apos;ll
+                                    generate
                                     recipes with any dietary requirements you have. Gluten-free? No problem.
                                 </Bento.Description>
                             </Bento.Card>
                         </Bento.Grid>
                     </div>
+
+                    <div className="flex flex-row space-x-4 mx-auto self-center justify-center">
+                        <FoodSavedCounter/>
+                        <UsersCounter/>
+                    </div>
                 </div>
             </FadeIn>
+
+            <Footer/>
         </div>
     )
 }
