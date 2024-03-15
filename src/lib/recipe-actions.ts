@@ -2,8 +2,15 @@
 
 import {Recipe} from "@/lib/recipes";
 import prisma from "@/lib/get-prisma";
+import {auth} from "@clerk/nextjs";
 
 export async function postRecipe(recipe: Recipe): Promise<Recipe> {
+    const {userId} = auth()
+
+    if (!userId) {
+        throw new Error("Not authenticated")
+    }
+
     const inDb = await prisma.recipe.create({
         data: {
             name: recipe.title,
@@ -12,7 +19,8 @@ export async function postRecipe(recipe: Recipe): Promise<Recipe> {
             steps: recipe.steps,
             people: recipe.people,
             diet: recipe.dietaryRestrictions,
-            foodSaved: recipe.foodSaved
+            foodSaved: recipe.foodSaved,
+            userId: userId
         }
     })
 

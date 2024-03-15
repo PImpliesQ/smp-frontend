@@ -1,4 +1,5 @@
 import React from "react";
+import FadeIn from "@/components/FadeIn";
 
 export function BentoGrid(props: {
     children: React.ReactNode
@@ -8,11 +9,11 @@ export function BentoGrid(props: {
     } = props
 
     return (
-        <div
+        <FadeIn
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >
             {children}
-        </div>
+        </FadeIn>
     )
 }
 

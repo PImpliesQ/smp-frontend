@@ -12,6 +12,7 @@ model Recipe {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   name        String
+  userId      String
   description String   @db.Text
   ingredients String   @db.Text
   steps       String   @db.Text
