@@ -16,8 +16,14 @@ export default async function FoodSaved() {
                 <p>
                     &#x1F96C;&nbsp;&nbsp;
                 </p>
-                <Suspense>
-                    {foodSaved}
+                <Suspense fallback={
+                    <p>
+                        0
+                    </p>
+                }>
+                    <p>
+                        {foodSaved}
+                    </p>
                 </Suspense>
                 <p>
                     kg of food saved

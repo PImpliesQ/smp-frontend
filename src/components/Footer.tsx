@@ -13,13 +13,9 @@ export default function Footer() {
                     &copy; 2024 Sustain-A-Meal
                 </p>
 
-                <p className="text-sm transition-all ease-out hover:underline hover:text-green-500">
-                    Contact
-                </p>
-
-                <Link href="/terms">
+                <Link href="/about">
                     <p className="text-sm transition-all ease-out hover:underline hover:text-green-500">
-                        Terms
+                        About
                     </p>
                 </Link>
             </div>
