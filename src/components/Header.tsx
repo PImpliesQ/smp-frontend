@@ -20,12 +20,22 @@ export default function Header() {
                 </h1>
             </div>
 
-            <div className="ml-auto place-self-center justify-center">
-                <Button variant="link">
-                    <Link href="/recipes">
-                        Recipes
-                    </Link>
-                </Button>
+            <div className="flex flex-row -space-x-4 ml-auto">
+                <div className="place-self-center justify-center">
+                    <Button variant="link">
+                        <Link href="/leaderboard">
+                            Leaderboard
+                        </Link>
+                    </Button>
+                </div>
+
+                <div className="place-self-center justify-center">
+                    <Button variant="link">
+                        <Link href="/recipes">
+                            Recipes
+                        </Link>
+                    </Button>
+                </div>
             </div>
 
             <div className="place-self-center w-8">
