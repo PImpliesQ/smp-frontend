@@ -12,9 +12,10 @@ export async function LeaderboardCard(props: {
 
 
     return (
-        <div className={cn("bg-white shadow overflow-hidden sm:rounded-lg", {
-                "bg-green-400": entry.position === 1,
-                "bg-yellow-400": entry.position === 2,
+        <div className={cn("bg-white ease-in-out duration-150 border shadow-sm hover:shadow-md hover:-translate-y-0.5",
+            "overflow-hidden sm:rounded-lg", {
+                "bg-green-400/75": entry.position === 1,
+                "bg-yellow-400/75": entry.position === 2,
             }
         )}>
             <div className="px-4 py-5 sm:px-6">
