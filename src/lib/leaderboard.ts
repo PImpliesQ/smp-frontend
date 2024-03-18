@@ -39,11 +39,16 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
         userId: string
         foodSaved: number
     }, index: number) {
-        const user = await clerkClient.users.getUser(entry.userId)
+        let username = ""
+        try {
+            username = (await clerkClient.users.getUser(entry.userId)).username ?? "Unknown"
+        } catch (e) {
+            console.error(e)
+        }
 
         return {
             position: index + 1,
-            username: user.username!,
+            username: username,
             score: entry.foodSaved
         }
     }
