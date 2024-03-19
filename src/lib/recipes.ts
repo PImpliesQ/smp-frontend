@@ -48,6 +48,7 @@ export function generatePrompt(data: z.infer<typeof formSchema>) {
 }
 
 export async function getRecipes(): Promise<Recipe[]> {
+    console.log("Getting recipes")
     const ids = await prisma.recipe.findMany({
         select: {
             id: true
@@ -57,6 +58,8 @@ export async function getRecipes(): Promise<Recipe[]> {
     const recipes = await Promise.all(ids.map(async (id) => {
         return await getRecipeById(id.id)
     }))
+
+    console.log(`Got ${recipes.length} recipes`)
 
     return recipes.filter((recipe) => recipe !== null) as Recipe[]
 }

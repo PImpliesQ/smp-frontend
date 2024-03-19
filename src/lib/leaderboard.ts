@@ -33,7 +33,7 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
             userId: e.user_id,
             foodSaved: e._sum.food_saved!
         }
-    })
+    }).sort((a, b) => b.foodSaved - a.foodSaved)
 
     async function mapEntryToLeaderboardEntry(entry: {
         userId: string
