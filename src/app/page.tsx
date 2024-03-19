@@ -19,7 +19,7 @@ export default function Page() {
     const gradient = "animate-gradient bg-gradient-to-r bg-clip-text text-transparent"
 
     return (
-        <div className="bg-[url('/background.jpg')] bg-cover bg-clip-content bg-no-repeat">
+        <div className="bg-[url('/background.jpg')] bg-cover bg-clip-content bg-fixed bg-no-repeat">
             <Header/>
 
             <FadeIn className="px-10 md:px-20 pt-10 mb-8 space-y-16 mx-auto max-w-5xl">
