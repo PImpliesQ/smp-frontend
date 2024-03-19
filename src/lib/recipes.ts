@@ -80,6 +80,6 @@ export async function getRecipeById(id: string | number): Promise<Recipe | null>
         steps: recipeInDb.steps,
         people: recipeInDb.people,
         dietaryRestrictions: recipeInDb.diet,
-        foodSaved: recipeInDb.foodSaved
+        foodSaved: recipeInDb.food_saved
     }
 }

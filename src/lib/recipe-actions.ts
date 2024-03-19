@@ -7,17 +7,17 @@ import {auth} from "@clerk/nextjs";
 export async function countFoodSavedKg() {
     const grams = await prisma.recipe.aggregate({
         _sum: {
-            foodSaved: true
+            food_saved: true
         }
     })
 
-    if (!grams._sum.foodSaved) {
+    if (!grams._sum.food_saved) {
         console.log(1)
         return 0
     }
 
     // Ensure we return a number with 2 decimal places
-    return parseFloat((grams._sum.foodSaved / 1000).toFixed(2))
+    return parseFloat((grams._sum.food_saved / 1000).toFixed(2))
 }
 
 export async function postRecipe(recipe: Recipe): Promise<Recipe> {
@@ -35,8 +35,8 @@ export async function postRecipe(recipe: Recipe): Promise<Recipe> {
             steps: recipe.steps,
             people: recipe.people,
             diet: recipe.dietaryRestrictions,
-            foodSaved: recipe.foodSaved,
-            userId: userId
+            food_saved: recipe.foodSaved,
+            user_id: userId
         }
     })
 

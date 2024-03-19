@@ -12,26 +12,26 @@ export type LeaderboardEntry = {
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
     const entries = await prisma.recipe.aggregate({
         _sum: {
-            foodSaved: true
+            food_saved: true
         },
         _count: true
     })
 
-    if (!entries._sum.foodSaved) {
+    if (!entries._sum.food_saved) {
         return []
     }
 
     const leaderboard = await prisma.recipe.groupBy({
-        by: ["userId"],
+        by: ["user_id"],
         _sum: {
-            foodSaved: true
+            food_saved: true
         },
     })
 
     const mapped = leaderboard.map(e => {
         return {
-            userId: e.userId,
-            foodSaved: e._sum.foodSaved!
+            userId: e.user_id,
+            foodSaved: e._sum.food_saved!
         }
     })
 
@@ -39,9 +39,11 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
         userId: string
         foodSaved: number
     }, index: number) {
-        let username = ""
+        let username = "Unknown"
         try {
-            username = (await clerkClient.users.getUser(entry.userId)).username ?? "Unknown"
+            const clerkUser = await clerkClient.users.getUser(entry.userId)
+
+            username = clerkUser.username ?? "Unknown"
         } catch (e) {
             console.error(e)
         }

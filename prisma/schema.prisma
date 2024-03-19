@@ -10,13 +10,18 @@ datasource db {
 
 model Recipe {
   id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
+  created_at  DateTime @default(now())
   name        String
-  userId      String
+  user_id     String
   description String   @db.Text
   ingredients String   @db.Text
   steps       String   @db.Text
   diet        String
   people      Int
-  foodSaved   Int
+  food_saved  Int
+}
+
+model User {
+  userId   String  @id
+  location String?
 }
