@@ -45,7 +45,7 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
 
             username = clerkUser.username ?? "Unknown"
         } catch (e) {
-            console.error(e)
+            // Ignore, this is due to test users or deleted users
         }
 
         return {
