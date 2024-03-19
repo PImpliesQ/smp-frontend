@@ -3,6 +3,7 @@ import {OpenAIStream, StreamingTextResponse} from "ai";
 import OpenAI from "openai";
 import prisma from "@/lib/get-prisma";
 import {getRecipeById, Recipe} from "@/lib/recipes";
+import {auth} from "@clerk/nextjs";
 
 const requestSchema = z.object({
     prompt: z.string()
@@ -27,28 +28,36 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY!,
+    const {userId} = auth()
+
+    if (!userId) {
+        throw new Error("Not authenticated")
+    }
+
+    const json = await request.json()
+
+    const recipe = await json.recipe as Recipe
+
+    if (!recipe) {
+        throw new Error("No recipe provided")
+    }
+
+    const inDb = await prisma.recipe.create({
+        data: {
+            name: recipe.title,
+            description: recipe.description,
+            ingredients: recipe.ingredients,
+            steps: recipe.steps,
+            people: recipe.people,
+            diet: recipe.dietaryRestrictions,
+            food_saved: recipe.foodSaved,
+            user_id: userId
+        }
     })
 
-    const {prompt} = requestSchema.parse(await request.json())
+    recipe.id = inDb.id
 
-    const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        temperature: 0.6,
-        frequency_penalty: 0.2,
-        presence_penalty: 0.3,
-        max_tokens: 700,
-        stream: true,
-        n: 1,
-        messages: [
-            {role: "user", content: prompt},
-            {role: "system", content: "You are powering a recipe creation tool"},
-        ],
-        response_format: {type: "json_object"},
+    return Response.json({
+        recipe
     })
-
-    const stream = OpenAIStream(response)
-
-    return new StreamingTextResponse(stream)
 }

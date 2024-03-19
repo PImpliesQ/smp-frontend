@@ -4,7 +4,9 @@ import FadeIn from "@/components/FadeIn";
 import {server} from "@/lib/config";
 
 export default async function Page() {
-    const res = await fetch(`${server}/api/v1/recipe`).then(res => res.json())
+    const res = await fetch(`${server}/api/v1/recipe`, {
+        cache: "no-cache"
+    }).then(res => res.json())
     const recipes = res.recipes as Recipe[]
 
     return (

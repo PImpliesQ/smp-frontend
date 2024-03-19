@@ -4,12 +4,14 @@ import {useCompletion} from "ai/react";
 import {z} from "zod";
 import RecipeCreateForm, {formSchema} from "@/components/create/RecipeCreateForm";
 import {generatePrompt} from "@/lib/recipes";
-import {postRecipe} from "@/lib/recipe-actions";
 import {useRouter} from "next/navigation";
+import {useAuth} from "@clerk/nextjs";
 
 export default function RecipeCreator() {
+    const {getToken} = useAuth()
+
     const {complete, isLoading} = useCompletion({
-        api: "/api/v1/recipe"
+        api: "/api/v1/recipe/generate"
     })
 
     const router = useRouter()
@@ -20,7 +22,16 @@ export default function RecipeCreator() {
         if (!json) {
             throw new Error("No response from the server")
         }
-        const recipe = await postRecipe(JSON.parse(json))
+
+        const recipe = await fetch(`/api/v1/recipe`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${await getToken()}`
+            },
+            body: JSON.stringify({
+                recipe: JSON.parse(json)
+            })
+        }).then(res => res.json()).then(json => json.recipe)
 
         router.push(`/recipes/${recipe.id}`)
     }
