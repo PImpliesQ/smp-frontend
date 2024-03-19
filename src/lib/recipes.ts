@@ -47,23 +47,6 @@ export function generatePrompt(data: z.infer<typeof formSchema>) {
   `
 }
 
-export async function getRecipes(): Promise<Recipe[]> {
-    console.log("Getting recipes")
-    const ids = await prisma.recipe.findMany({
-        select: {
-            id: true
-        }
-    })
-
-    const recipes = await Promise.all(ids.map(async (id) => {
-        return await getRecipeById(id.id)
-    }))
-
-    console.log(`Got ${recipes.length} recipes`)
-
-    return recipes.filter((recipe) => recipe !== null) as Recipe[]
-}
-
 export async function getRecipeById(id: string | number): Promise<Recipe | null> {
     const recipeInDb = await prisma.recipe.findFirst({
         where: {

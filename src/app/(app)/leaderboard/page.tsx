@@ -1,10 +1,11 @@
 import FadeIn from "@/components/FadeIn";
-import {getLeaderboard} from "@/lib/leaderboard";
+import {LeaderboardEntry} from "@/lib/leaderboard";
 import {LeaderboardCard} from "@/components/leaderboard/LeaderboardCard";
+import {server} from "@/lib/config";
 
 export default async function Page() {
-    // Workaround for SSR
-    const leaderboard = process.env.RUNNING_DOCKER_BUILD ? [] : await getLeaderboard()
+    const res = await fetch(`${server}/api/v1/leaderboard`).then(res => res.json())
+    const leaderboard = res.leaderboard as LeaderboardEntry[]
 
     return (
         <div className="space-y-4">

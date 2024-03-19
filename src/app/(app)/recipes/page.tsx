@@ -1,11 +1,11 @@
-import {getRecipes} from "@/lib/recipes";
+import {Recipe} from "@/lib/recipes";
 import RecipeCard from "@/components/recipe/RecipeCard";
 import FadeIn from "@/components/FadeIn";
+import {server} from "@/lib/config";
 
 export default async function Page() {
-    // Workaround for SSR
-    console.log(process.env.RUNNING_DOCKER_BUILD)
-    const recipes = process.env.RUNNING_DOCKER_BUILD ? [] : await getRecipes()
+    const res = await fetch(`${server}/api/v1/recipe`).then(res => res.json())
+    const recipes = res.recipes as Recipe[]
 
     return (
         <div className="space-y-4">

@@ -1,10 +1,30 @@
 import {z} from "zod";
 import {OpenAIStream, StreamingTextResponse} from "ai";
 import OpenAI from "openai";
+import prisma from "@/lib/get-prisma";
+import {getRecipeById, Recipe} from "@/lib/recipes";
 
 const requestSchema = z.object({
     prompt: z.string()
 })
+
+export async function GET(request: Request) {
+    const ids = await prisma.recipe.findMany({
+        select: {
+            id: true
+        }
+    })
+
+    const recipes = await Promise.all(ids.map(async (id) => {
+        return await getRecipeById(id.id)
+    }))
+
+    const filtered = recipes.filter((recipe) => recipe !== null) as Recipe[]
+
+    return Response.json({
+        recipes: filtered
+    })
+}
 
 export async function POST(request: Request) {
     const openai = new OpenAI({
