@@ -21,6 +21,7 @@ export const onboardingFormSchema = z.object({
 const accommodations = [
     "Birks Grange Village",
     "Duryard",
+    "East Park",
     "Holland Hall",
     "Lafrowda",
     "Mardon Hall",
