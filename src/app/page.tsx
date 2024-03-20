@@ -22,7 +22,7 @@ export default function Page() {
         <div className="bg-[url('/background.jpg')] bg-cover bg-clip-content bg-fixed bg-no-repeat">
             <Header/>
 
-            <FadeIn className="px-10 md:px-20 pt-10 mb-8 space-y-16 mx-auto max-w-5xl">
+            <FadeIn className="px-10 md:px-20 pt-10 mb-8 space-y-16 mx-auto max-w-5xl min-h-screen">
                 <div className="space-y-8 text-center">
                     <div className="space-y-2 mb-4">
                         <FoodSaved/>
