@@ -23,6 +23,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Add required environment variables
+ARG API_ENDPOINT
 ENV RUNNING_DOCKER_BUILD true
 
 # Next.js collects completely anonymous telemetry data about general usage.

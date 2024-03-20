@@ -22,6 +22,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
+          build-args: |
+            API_ENDPOINT=${{ secrets.API_ENDPOINT }}
           context: .
           tags: ghcr.io/pimpliesq/smp-frontend:latest
           push: true
