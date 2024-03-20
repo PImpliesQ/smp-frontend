@@ -23,6 +23,7 @@ export async function POST(request: Request) {
         throw new Error("No recipe provided")
     }
 
+    // Effectively proxy the request off to the backend server
     const res = await fetch(`${apiEndpoint}/create_recipe/`, {
         method: "POST",
         headers: {

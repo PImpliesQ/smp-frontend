@@ -23,6 +23,7 @@ export default function RecipeCreator() {
             throw new Error("No response from the server")
         }
 
+        // Add the recipe to the database
         const res = await fetch(`/api/v1/recipe`, {
             method: "POST",
             headers: {

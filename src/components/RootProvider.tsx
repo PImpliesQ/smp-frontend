@@ -8,7 +8,7 @@ export default function RootProvider({children,}: {
 }) {
     return (
         <ClerkProvider
-            // ULTRA JANK SOLUTION TO ULTRA JANK PROBLEM
+            // It's a really, really long story why I have to do this
             publishableKey={
                 process.env.NODE_ENV !== 'production' ?
                     process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY :

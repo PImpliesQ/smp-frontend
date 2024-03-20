@@ -3,12 +3,13 @@ import {LeaderboardEntry} from "@/lib/leaderboard";
 import {LeaderboardCard} from "@/components/leaderboard/LeaderboardCard";
 import {server} from "@/lib/config";
 
-export const dynamic = "force-dynamic"
 
 export default async function Page() {
+    // No cache in order to get the latest leaderboard
     const res = await fetch(`${server}/api/v1/leaderboard`, {
         cache: "no-cache"
     }).then(res => res.json())
+
     const leaderboard = res.leaderboard as LeaderboardEntry[]
 
     return (

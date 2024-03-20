@@ -3,12 +3,12 @@ import RecipeCard from "@/components/recipe/RecipeCard";
 import FadeIn from "@/components/FadeIn";
 import {server} from "@/lib/config";
 
-export const dynamic = "force-dynamic"
-
 export default async function Page() {
+    // No cache in order to get the latest information, useful for demo
     const res = await fetch(`${server}/api/v1/recipe`, {
         cache: "no-cache"
     }).then(res => res.json())
+
     const recipes = res.recipes as Recipe[]
 
     return (
