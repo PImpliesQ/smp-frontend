@@ -22,6 +22,9 @@ export async function LeaderboardCard(props: {
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
                     {entry.position}. {entry.username}
                 </h3>
+                <h3 className="text-md leading-6 text-gray-700">
+                    {entry.accommodation}
+                </h3>
                 <p className="mt-1 max-w-2xl text-sm text-gray-500">
                     {(entry.score / 1000).toFixed(2)} kg saved
                 </p>

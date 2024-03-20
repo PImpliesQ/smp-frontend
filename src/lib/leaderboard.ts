@@ -5,8 +5,12 @@ import {getRecipes} from "@/lib/recipes";
 
 export type LeaderboardEntry = {
     position: number
-    username: string
     score: number
+} & UserInfo
+
+type UserInfo = {
+    username: string
+    accommodation: string
 }
 
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
@@ -23,25 +27,29 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
     const sortedScores = Array.from(userScores.entries())
         .sort((a, b) => b[1] - a[1])
 
-    // Function to get the username for a user ID
-    async function getUsername(userId: string) {
+    // Function to get the user info for a user ID
+    async function getUserInfo(userId: string): Promise<UserInfo> {
         try {
-            console.log(`Getting username for ${userId}`)
             const user = await clerkClient.users.getUser(userId)
-            console.log(`Got username for ${userId}: ${user.username}`)
-            return user.username ?? "No username"
+            return {
+                username: user.username ?? "No username",
+                accommodation: (user.publicMetadata as any).accommodation ?? "No accommodation"
+            }
         } catch (e) {
-            return "Unknown"
+            return {
+                username: "Unknown user",
+                accommodation: "Unknown accommodation"
+            }
         }
     }
 
     // Construct the leaderboard entries
     const leaderboardPromises: Promise<LeaderboardEntry>[] = sortedScores.map(async ([userId, score], i) => {
-        const username = await getUsername(userId)
+        const info = await getUserInfo(userId)
         return {
             position: i + 1,
-            username,
-            score
+            score,
+            ...info
         }
     })
 

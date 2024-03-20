@@ -1,6 +1,8 @@
 import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import {auth} from "@clerk/nextjs";
+import {redirect} from "@clerk/backend";
 
 export default function Layout(props: {
     children: React.ReactNode
