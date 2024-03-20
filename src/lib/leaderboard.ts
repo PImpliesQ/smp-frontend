@@ -34,15 +34,16 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
     }
 
     // Construct the leaderboard entries
-    const leaderboard: LeaderboardEntry[] = []
-    for (let i = 0; i < sortedScores.length; i++) {
-        const [userId, score] = sortedScores[i]
-        leaderboard.push({
+    const leaderboardPromises: Promise<LeaderboardEntry>[] = sortedScores.map(async ([userId, score], i) => {
+        const username = await getUsername(userId)
+        return {
             position: i + 1,
-            username: await getUsername(userId),
+            username,
             score
-        })
-    }
+        }
+    })
 
-    return leaderboard
+    const leaderboard: LeaderboardEntry[] = await Promise.all(leaderboardPromises)
+
+    return leaderboard.sort((a, b) => a.position - b.position)
 }
