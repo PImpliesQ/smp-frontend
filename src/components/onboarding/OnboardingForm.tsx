@@ -2,9 +2,8 @@
 
 import * as React from "react"
 import {useState} from "react"
-import {useUser} from "@clerk/nextjs"
+import {useAuth, useUser} from "@clerk/nextjs"
 import {useRouter} from "next/navigation"
-import {completeOnboarding} from "@/lib/onboarding";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -60,16 +59,25 @@ export default function OnboardingForm() {
 
     const [isLoading, setLoading] = useState(false)
 
+    const {getToken} = useAuth()
     const {user} = useUser()
     const router = useRouter()
 
     const onSubmit = async (formData: z.infer<typeof onboardingFormSchema>) => {
         setLoading(true)
-        const res = await completeOnboarding(formData)
-        if (res?.message) {
-            await user?.reload()
-            router.push("/")
-        }
+
+        await fetch(`/api/v1/onboard`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${await getToken()}`
+            },
+            body: JSON.stringify({
+                ...formData
+            })
+        })
+
+        await user?.reload()
+        router.push("/")
     }
     return (
         <Form {...form}>
