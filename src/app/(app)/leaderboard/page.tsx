@@ -3,6 +3,11 @@ import {LeaderboardEntry} from "@/lib/leaderboard";
 import {LeaderboardCard} from "@/components/leaderboard/LeaderboardCard";
 import {server} from "@/lib/config";
 
+/*
+This page is marked as dynamic in order to opt-out of static prerendering,
+however the API server is inaccessible during the build process.
+ */
+export const dynamic = "force-dynamic"
 
 export default async function Page() {
     // No cache in order to get the latest leaderboard
