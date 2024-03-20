@@ -1,29 +1,10 @@
-import {z} from "zod";
-import {OpenAIStream, StreamingTextResponse} from "ai";
-import OpenAI from "openai";
-import prisma from "@/lib/get-prisma";
-import {getRecipeById, Recipe} from "@/lib/recipes";
+import {getRecipes, Recipe} from "@/lib/recipes";
 import {auth} from "@clerk/nextjs";
-
-const requestSchema = z.object({
-    prompt: z.string()
-})
+import {apiEndpoint} from "@/lib/config";
 
 export async function GET(request: Request) {
-    const ids = await prisma.recipe.findMany({
-        select: {
-            id: true
-        }
-    })
-
-    const recipes = await Promise.all(ids.map(async (id) => {
-        return await getRecipeById(id.id)
-    }))
-
-    const filtered = recipes.filter((recipe) => recipe !== null) as Recipe[]
-
     return Response.json({
-        recipes: filtered
+        recipes: await getRecipes()
     })
 }
 
@@ -42,8 +23,12 @@ export async function POST(request: Request) {
         throw new Error("No recipe provided")
     }
 
-    const inDb = await prisma.recipe.create({
-        data: {
+    const res = await fetch(`${apiEndpoint}/create_recipe/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
             name: recipe.title,
             description: recipe.description,
             ingredients: recipe.ingredients,
@@ -52,10 +37,20 @@ export async function POST(request: Request) {
             diet: recipe.dietaryRestrictions,
             food_saved: recipe.foodSaved,
             user_id: userId
-        }
+        })
     })
 
-    recipe.id = inDb.id
+    if (!res.ok) {
+        return Response.json({
+            error: "Failed to create recipe"
+        }, {
+            status: 500
+        })
+    }
+
+    const responseJson = await res.json()
+
+    recipe.id = responseJson.id
 
     return Response.json({
         recipe

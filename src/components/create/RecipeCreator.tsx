@@ -23,7 +23,7 @@ export default function RecipeCreator() {
             throw new Error("No response from the server")
         }
 
-        const recipe = await fetch(`/api/v1/recipe`, {
+        const res = await fetch(`/api/v1/recipe`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${await getToken()}`
@@ -33,7 +33,7 @@ export default function RecipeCreator() {
             })
         }).then(res => res.json()).then(json => json.recipe)
 
-        router.push(`/recipes/${recipe.id}`)
+        router.push(`/recipes/${res.id}`)
     }
 
     return (

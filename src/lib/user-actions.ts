@@ -1,11 +1,11 @@
 "use server"
 
-import prisma from "@/lib/get-prisma";
+import {getRecipes} from "@/lib/recipes";
 
 export async function countUsers() {
-    const users = await prisma.recipe.findMany({
-        distinct: ['user_id']
-    })
+    const recipes = await getRecipes()
 
-    return users.length
+    const userIds = recipes.map(r => r.userId)
+
+    return new Set(userIds).size
 }

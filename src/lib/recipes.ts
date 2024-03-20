@@ -1,6 +1,6 @@
 import {z} from "zod";
 import {formSchema} from "@/components/create/RecipeCreateForm";
-import prisma from "@/lib/get-prisma";
+import {apiEndpoint} from "@/lib/config";
 
 export type Recipe = {
     id: number,
@@ -10,7 +10,8 @@ export type Recipe = {
     dietaryRestrictions: string
     ingredients: string
     steps: string
-    foodSaved: number
+    foodSaved: number,
+    userId: string,
 }
 
 export function generatePrompt(data: z.infer<typeof formSchema>) {
@@ -48,24 +49,47 @@ export function generatePrompt(data: z.infer<typeof formSchema>) {
 }
 
 export async function getRecipeById(id: string | number): Promise<Recipe | null> {
-    const recipeInDb = await prisma.recipe.findFirst({
-        where: {
-            id: parseInt(id.toString())
-        }
+    const res = await fetch(`${apiEndpoint}/get_recipe/${id}`, {
+        cache: "no-cache"
     })
 
-    if (!recipeInDb) {
+    if (!res.ok) {
+        return null
+    }
+
+    const json = await res.json()
+
+    if (!json.name) {
         return null
     }
 
     return {
-        id: recipeInDb.id,
-        title: recipeInDb.name,
-        description: recipeInDb.description,
-        ingredients: recipeInDb.ingredients,
-        steps: recipeInDb.steps,
-        people: recipeInDb.people,
-        dietaryRestrictions: recipeInDb.diet,
-        foodSaved: recipeInDb.food_saved
+        id: parseInt(id.toString()),
+        title: json.name,
+        description: json.description,
+        people: json.people,
+        dietaryRestrictions: json.diet,
+        ingredients: json.ingredients,
+        steps: json.steps,
+        foodSaved: json.food_saved,
+        userId: json.user_id
     }
+}
+
+export async function getRecipes(): Promise<Recipe[]> {
+    const res = await fetch(`${apiEndpoint}/get_all_recipe_ids`, {
+        cache: "no-cache"
+    }).then(res => res.json())
+
+    if (!res.ids) {
+        return []
+    }
+
+    const ids = res.ids as number[]
+
+    const recipes = await Promise.all(ids.map(async (id) => {
+        return await getRecipeById(id)
+    }))
+
+    return recipes.filter((recipe) => recipe !== null) as Recipe[]
 }

@@ -1,19 +1,10 @@
 "use server"
 
-import prisma from "@/lib/get-prisma";
+import {getRecipes} from "@/lib/recipes";
 
 export async function countFoodSavedKg() {
-    const grams = await prisma.recipe.aggregate({
-        _sum: {
-            food_saved: true
-        }
-    })
+    const recipes = await getRecipes()
 
-    if (!grams._sum.food_saved) {
-        console.log(1)
-        return 0
-    }
-
-    // Ensure we return a number with 2 decimal places
-    return parseFloat((grams._sum.food_saved / 1000).toFixed(2))
+    const kgs = recipes.reduce((acc, recipe) => acc + recipe.foodSaved, 0) / 1000
+    return parseFloat(kgs.toFixed(2))
 }

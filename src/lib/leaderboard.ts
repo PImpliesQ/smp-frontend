@@ -1,7 +1,7 @@
 "use server"
 
-import prisma from "@/lib/get-prisma";
 import {clerkClient} from "@clerk/nextjs";
+import {getRecipes} from "@/lib/recipes";
 
 export type LeaderboardEntry = {
     position: number
@@ -10,50 +10,39 @@ export type LeaderboardEntry = {
 }
 
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
-    const entries = await prisma.recipe.aggregate({
-        _sum: {
-            food_saved: true
-        },
-        _count: true
-    })
+    const recipes = await getRecipes()
 
-    if (!entries._sum.food_saved) {
-        return []
+    // Construct a map of user IDs to the total food saved
+    const userScores = new Map<string, number>()
+    for (const recipe of recipes) {
+        const currentScore = userScores.get(recipe.userId) ?? 0
+        userScores.set(recipe.userId, currentScore + recipe.foodSaved)
     }
 
-    const leaderboard = await prisma.recipe.groupBy({
-        by: ["user_id"],
-        _sum: {
-            food_saved: true
-        },
-    })
+    // Sort the user scores in descending order
+    const sortedScores = Array.from(userScores.entries())
+        .sort((a, b) => b[1] - a[1])
 
-    const mapped = leaderboard.map(e => {
-        return {
-            userId: e.user_id,
-            foodSaved: e._sum.food_saved!
-        }
-    }).sort((a, b) => b.foodSaved - a.foodSaved)
-
-    async function mapEntryToLeaderboardEntry(entry: {
-        userId: string
-        foodSaved: number
-    }, index: number) {
-        let username = "Unknown"
+    // Function to get the username for a user ID
+    async function getUsername(userId: string) {
         try {
-            const clerkUser = await clerkClient.users.getUser(entry.userId)
-
-            username = clerkUser.username ?? "Unknown"
+            const user = await clerkClient.users.getUser(userId)
+            return user.username ?? "Unknown"
         } catch (e) {
-            // Ignore, this is due to test users or deleted users
-        }
-
-        return {
-            position: index + 1,
-            username: username,
-            score: entry.foodSaved
+            return "Unknown"
         }
     }
 
-    return Promise.all(mapped.map(mapEntryToLeaderboardEntry))
+    // Construct the leaderboard entries
+    const leaderboard: LeaderboardEntry[] = []
+    for (let i = 0; i < sortedScores.length; i++) {
+        const [userId, score] = sortedScores[i]
+        leaderboard.push({
+            position: i + 1,
+            username: await getUsername(userId),
+            score
+        })
+    }
+
+    return leaderboard
 }
