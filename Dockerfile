@@ -23,7 +23,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Add required environment variables
-ARG DATABASE_URL
 ENV RUNNING_DOCKER_BUILD true
 
 # Next.js collects completely anonymous telemetry data about general usage.
@@ -31,7 +30,6 @@ ENV RUNNING_DOCKER_BUILD true
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn prisma generate
 RUN yarn build
 
 # If using npm comment out above and use below instead

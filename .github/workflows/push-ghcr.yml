@@ -19,14 +19,9 @@ jobs:
           registry: ghcr.io
           username: WillFP
           password: ${{ secrets.ACCESS_TOKEN }}
-      - name: Enable MySQL
-        run: |
-          sudo /etc/init.d/mysql start
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          build-args: |
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
           context: .
           tags: ghcr.io/pimpliesq/smp-frontend:latest
           push: true
