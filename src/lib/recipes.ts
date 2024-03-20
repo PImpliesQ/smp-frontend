@@ -49,9 +49,7 @@ export function generatePrompt(data: z.infer<typeof formSchema>) {
 }
 
 export async function getRecipeById(id: string | number): Promise<Recipe | null> {
-    const res = await fetch(`${apiEndpoint}/get_recipe/${id}`, {
-        cache: "no-cache"
-    })
+    const res = await fetch(`${apiEndpoint}/get_recipe/${id}`)
 
     if (!res.ok) {
         return null

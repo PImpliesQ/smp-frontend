@@ -79,7 +79,7 @@ export default function RecipeCreateForm(props: {
                                 </Slider>
                             </FormControl>
                             <FormDescription>
-                                {field.value} People
+                                {field.value} {field.value[0] === 1 ? "Person" : "People"}
                             </FormDescription>
                         </FormItem>
                     )}
