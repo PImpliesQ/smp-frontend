@@ -78,7 +78,9 @@ export async function getRecipeById(id: string | number): Promise<Recipe | null>
 
 export async function getRecipes(): Promise<Recipe[]> {
     const res = await fetch(`${apiEndpoint}/get_all_recipe_ids`, {
-        cache: "no-cache"
+        next: {
+            revalidate: 5
+        }
     })
 
     if (!res.ok) {

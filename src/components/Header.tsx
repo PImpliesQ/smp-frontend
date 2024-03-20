@@ -7,7 +7,7 @@ import {Button} from "@/components/ui/button";
 
 export default function Header() {
     return (
-        <div className="py-4 px-10 md:px-16 backdrop-blur-xl flex w-full border-b sticky top-0"
+        <div className="py-4 px-10 md:px-16 backdrop-blur-xl flex w-full border-b sticky top-0 z-50"
              suppressHydrationWarning
         >
             <div className="place-self-center">
