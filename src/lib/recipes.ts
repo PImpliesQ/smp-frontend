@@ -79,13 +79,19 @@ export async function getRecipeById(id: string | number): Promise<Recipe | null>
 export async function getRecipes(): Promise<Recipe[]> {
     const res = await fetch(`${apiEndpoint}/get_all_recipe_ids`, {
         cache: "no-cache"
-    }).then(res => res.json())
+    })
 
-    if (!res.ids) {
+    if (!res.ok) {
         return []
     }
 
-    const ids = res.ids as number[]
+    const json = await res.json()
+
+    if (!json.ids) {
+        return []
+    }
+
+    const ids = json.ids as number[]
 
     const recipes = await Promise.all(ids.map(async (id) => {
         return await getRecipeById(id)
