@@ -26,8 +26,10 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
     // Function to get the username for a user ID
     async function getUsername(userId: string) {
         try {
+            console.log(`Getting username for ${userId}`)
             const user = await clerkClient.users.getUser(userId)
-            return user.username ?? "Unknown"
+            console.log(`Got username for ${userId}: ${user.username}`)
+            return user.username ?? "No username"
         } catch (e) {
             return "Unknown"
         }
