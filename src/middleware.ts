@@ -15,6 +15,11 @@ export default authMiddleware({
 
         // For user visiting /onboarding, don't try and redirect
         if (userId && req.nextUrl.pathname === '/onboarding') {
+            // Don't onboard if already complete
+            if (sessionClaims?.metadata?.onboardingComplete) {
+                return NextResponse.redirect('/')
+            }
+
             return NextResponse.next()
         }
 
