@@ -30,7 +30,7 @@ export default authMiddleware({
         // Redirect them to the /onboading out to complete onboarding
         if (userId && !sessionClaims?.metadata?.onboardingComplete) {
             const onboardingUrl = new URL("/onboarding", req.url)
-            return NextResponse.redirect(onboardingUrl)
+            //return NextResponse.redirect(onboardingUrl)
         }
 
         // User is logged in and the route is protected - let them view.
